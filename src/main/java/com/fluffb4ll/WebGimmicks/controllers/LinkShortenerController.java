@@ -32,7 +32,8 @@ public class LinkShortenerController {
             System.err.println(test);
             try {
                 response.sendRedirect(request.getScheme() + "://www." + linkShortener.getOriginalLink());
-                LSRepository.save(linkShortener)
+                linkShortener.changeLastUsed();
+                LSRepository.save(linkShortener);
             } catch (IOException e) {
                 throw new RuntimeException(e);
             }

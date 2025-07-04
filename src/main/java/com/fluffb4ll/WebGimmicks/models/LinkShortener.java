@@ -46,4 +46,8 @@ public class LinkShortener {
     public boolean getIsActive() {
         return isActive;
     }
+
+    public void changeLastUsed() {
+        this.lastUsed =  LocalDate.now();
+    }
 }
