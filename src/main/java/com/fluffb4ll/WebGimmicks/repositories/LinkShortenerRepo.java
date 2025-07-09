@@ -1,6 +1,7 @@
 package com.fluffb4ll.WebGimmicks.repositories;
 
 import com.fluffb4ll.WebGimmicks.models.LinkShortener;
+import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.CrudRepository;
 import org.springframework.data.rest.core.annotation.RepositoryRestResource;
 
@@ -13,4 +14,7 @@ public interface LinkShortenerRepo extends CrudRepository<LinkShortener, String>
     LinkShortener findByOriginalLink(String originalLink);
 
     List<LinkShortener> findByIsActive(Boolean isActive);
+
+    @Query("select max(ls.shortLink) from LinkShortener ls")
+    String findLastShortLink();
 }
