@@ -29,9 +29,8 @@ public class LinkShortenerController {
         LinkShortener linkShortener = LSRepository.findByShortLink(shortLink);
         if (linkShortener != null) {
             String test = linkShortener.getOriginalLink();
-            System.err.println(test);
             try {
-                response.sendRedirect(linkShortener.getOriginalLink());
+                response.sendRedirect("https://" + linkShortener.getOriginalLink());
                 linkShortener.changeLastUsed();
                 LSRepository.save(linkShortener);
             } catch (IOException e) {
@@ -60,7 +59,6 @@ public class LinkShortenerController {
                 }
                 else if (lastShortLink[i] == 'Z' && !reassignedChar) {
                     lastShortLink[i] = 'A';
-                    System.err.println(2);
                 }
             }
             String shortLink = new String(lastShortLink);
@@ -69,7 +67,6 @@ public class LinkShortenerController {
                 LSRepository.save(linkShortener);
                 return ResponseEntity.status(HttpStatus.CREATED).body(linkShortener.getShortenedLink());
             } catch (Exception e) {
-                System.err.println(e.getMessage());
                 return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
             }
 
