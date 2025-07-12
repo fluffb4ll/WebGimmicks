@@ -23,14 +23,13 @@ public class LinkShortener {
     @Column(nullable = false, columnDefinition = "date")
     private LocalDate createdOn;
 
-    @Column
-    private boolean isActive;
 
     protected LinkShortener() {}
 
     public LinkShortener(String originalLink, String shortLink) {
         this.originalLink = originalLink;
         this.shortLink = shortLink;
+        createdOn = LocalDate.now();
     }
 
     public String getOriginalLink() {
@@ -49,9 +48,6 @@ public class LinkShortener {
         return createdOn;
     }
 
-    public boolean getIsActive() {
-        return isActive;
-    }
 
     public void changeLastUsed() {
         this.lastUsed =  LocalDate.now();

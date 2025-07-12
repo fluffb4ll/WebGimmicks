@@ -25,9 +25,9 @@ public class LinkShortenerController {
     }
 
     @GetMapping("/ls/{shortLink}")
-    public String getShortLink(@PathVariable String shortLink, HttpServletResponse response, HttpServletRequest request) {
+    public String redirectFromShortLink(@PathVariable String shortLink, HttpServletResponse response, HttpServletRequest request) {
         LinkShortener linkShortener = LSRepository.findByShortLink(shortLink);
-        if (linkShortener != null && linkShortener.getIsActive()) {
+        if (linkShortener != null) {
             String test = linkShortener.getOriginalLink();
             System.err.println(test);
             try {
@@ -50,25 +50,26 @@ public class LinkShortenerController {
         if (linkShortener != null) {
             return ResponseEntity.ok(linkShortener.getShortenedLink());
         } else {
-            String shortLink = "";
             char[] lastShortLink = LSRepository.findLastShortLink().toCharArray();
             boolean reassignedChar = false;
 
             for (int i = lastShortLink.length - 1; i >= 0; i--) {
                 if (lastShortLink[i] != 'Z' && !reassignedChar) {
-                    shortLink += lastShortLink[i]++;
-                    reassignedChar = true;
+                    lastShortLink[i]++;
+                    break;
                 }
-                else {
-                    shortLink += lastShortLink[i];
+                else if (lastShortLink[i] == 'Z' && !reassignedChar) {
+                    lastShortLink[i] = 'A';
+                    System.err.println(2);
                 }
             }
-            shortLink = new StringBuilder(shortLink).reverse().toString();
+            String shortLink = new String(lastShortLink);
             linkShortener = new LinkShortener(link, shortLink);
             try {
                 LSRepository.save(linkShortener);
                 return ResponseEntity.status(HttpStatus.CREATED).body(linkShortener.getShortenedLink());
             } catch (Exception e) {
+                System.err.println(e.getMessage());
                 return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
             }
 

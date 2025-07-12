@@ -13,8 +13,6 @@ public interface LinkShortenerRepo extends CrudRepository<LinkShortener, String>
 
     LinkShortener findByOriginalLink(String originalLink);
 
-    List<LinkShortener> findByIsActive(Boolean isActive);
-
     @Query("select max(ls.shortLink) from LinkShortener ls")
     String findLastShortLink();
 }
