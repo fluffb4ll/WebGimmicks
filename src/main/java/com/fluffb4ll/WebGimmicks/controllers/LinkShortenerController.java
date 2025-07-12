@@ -4,17 +4,12 @@ import com.fluffb4ll.WebGimmicks.models.LinkShortener;
 import com.fluffb4ll.WebGimmicks.repositories.LinkShortenerRepo;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
-import org.springframework.boot.autoconfigure.graphql.GraphQlProperties;
-import org.springframework.hateoas.Link;
-import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.io.IOException;
-import java.net.URI;
-import java.util.List;
 
 @RestController
 public class LinkShortenerController {
@@ -25,10 +20,9 @@ public class LinkShortenerController {
     }
 
     @GetMapping("/ls/{shortLink}")
-    public String redirectFromShortLink(@PathVariable String shortLink, HttpServletResponse response, HttpServletRequest request) {
+    public String redirectFromShortLink(@PathVariable String shortLink, HttpServletResponse response) {
         LinkShortener linkShortener = LSRepository.findByShortLink(shortLink);
         if (linkShortener != null) {
-            String test = linkShortener.getOriginalLink();
             try {
                 response.sendRedirect("https://" + linkShortener.getOriginalLink());
                 linkShortener.changeLastUsed();
