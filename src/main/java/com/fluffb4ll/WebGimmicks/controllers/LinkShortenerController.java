@@ -36,6 +36,7 @@ public class LinkShortenerController {
         }
     }
 
+    // TODO: добавить больше букавок
     @PostMapping("api/ls")
     public ResponseEntity<String> createShortLink(@RequestBody String link) {
         LinkShortener linkShortener = LSRepository.findByOriginalLink(link);

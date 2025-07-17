@@ -5,7 +5,7 @@ async function compressLink() {
 
     const response = await fetch("api/ls", {
         method:"POST",
-        body: link
+        body: link.replace('https://', '').replace('http://', '')
     });
 
     if (!response.ok) {

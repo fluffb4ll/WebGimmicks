@@ -3,15 +3,19 @@
 <head>
     <meta charset="UTF-8">
     <title>fluffball - Link Shortener (TM)</title>
-    <style th:src="@{styles/ls.css}"></style>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" th:href="@{styles/ls.css}">
     <script defer th:src="@{scripts/ls.js}"></script>
 </head>
 <body>
     <div id="mainWindow">
-        <form id="lsForm">
-            <input type="text" placeholder="Enter the desired link" required id="link">
-            <input type="button" value="Confirm" id="confirm">
-        </form>
+        <div id="lsContainer">
+            <p id="lsHeader">got links that are too long? compress them using fluffb4ll link shortener™ lmao</p>
+            <form id="lsForm">
+                <input type="text" placeholder="enter your link. or don't. idc." required id="link">
+                <input type="button" value="shorten your peenar" id="confirm">
+            </form>
+        </div>
     </div>
 </body>
 </html>

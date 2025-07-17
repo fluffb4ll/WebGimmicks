@@ -1,0 +1,45 @@
+body {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: 98vh;
+    /*background-color: #E4DCB5;*/
+    background-color: #0D011C;
+}
+
+#mainWindow {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    width: 50%;
+    height: 50%;
+}
+
+#shortLinkContainer {
+    background-color: #ffffff;
+}
+
+#link {
+    /*width: 34.687rem;*/
+    width: 85%;
+    /*height: 2.1875rem;*/
+    height: 3rem;
+    border-radius: 15px;
+    border-style: inset outset outset inset;
+    border-width: 2px;
+    background-color: #f9f8e3;
+}
+
+#lsForm {
+    display: flex;
+}
+
+#confirm {
+    /*height: 2.563rem;*/
+    height: 3.375rem;
+    width: 15%;
+    margin-left: 10px;
+    border-radius: 15px;
+    border-style: outset inset inset outset;
+    background-color: #dbabf0;
+}
