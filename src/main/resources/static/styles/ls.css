@@ -62,6 +62,7 @@
     --text: #e7e5ea;
     --background: #110d16;
     --primary: #baa5d7;
+    --primary-dm: #3d2859;
     --secondary: #4c287f;
     --accent: #732ed4;
 }
@@ -71,35 +72,26 @@ body {
     align-items: center;
     justify-content: center;
     height: 98vh;
-    /*background-color: #E4DCB5;*/
-    /*background-color: #0D011C;*/
     background-color: var(--background);
 }
 
 p {
     color: var(--text);
 }
+
 a:link, a:visited {
     color: var(--text-900);
     text-decoration: none;
 }
-
 a:hover {
     color: var(--accent-300);
     text-decoration: none;
 }
-
 a:active {
     color: var(--accent-400);
     text-decoration: none;
 }
-#confirm:disabled {
-    background-color: var(--primary);
-}
-#confirm:enabled {
-    background-color: var(--primary-400);
-    cursor: pointer;
-}
+
 #mainWindow {
     display: flex;
     flex-direction: column;
@@ -109,13 +101,11 @@ a:active {
 }
 
 #shortLinkCard {
-    /*background-color: #ffffff;*/
     background-color: var(--primary);
     margin-top: 20px;
     padding: 5px 0 5px 15px;
     border-radius: 5px;
 }
-
 #shortLinkContainer {
     display: flex;
     flex-direction: column;
@@ -123,14 +113,11 @@ a:active {
 }
 
 #link {
-    /*width: 34.687rem;*/
     width: 85%;
-    /*height: 2.1875rem;*/
     height: 3rem;
     border-radius: 15px;
     border-style: inset outset outset inset;
     border-width: 2px;
-    /*background-color: #f9f8e3;*/
     background-color: var(--primary);
     color: var(--text-950);
     font-size: 16px;
@@ -141,37 +128,53 @@ a:active {
     display: flex;
 }
 
+button {
+    border-radius: 15px;
+    border-style: outset inset inset outset;
+    border-color: #979797;
+}
+
 #confirm {
-    /*height: 2.563rem;*/
     height: 3.375rem;
     width: 15%;
     margin-left: 10px;
     border-radius: 15px;
     border-style: outset inset inset outset;
     border-color: #979797;
-    /*background-color: #dbabf0;*/
     background-color: var(--primary);
     color: var(--text-950);
+}
+#confirm:disabled {
+    background-color: var(--primary);
+}
+#confirm:enabled {
+    background-color: var(--primary-400);
+    cursor: pointer;
+}
+
+#copyButton {
+    background-color: var(--primary-400);
+    color: var(--text-950);
+    height: 3.375rem;
+    width: 6rem;
+    border-color: #636363;
 }
 
 .tooltip {
     position: relative;
-    display: inline-block;
+    display: flex;
 }
 
 .tooltip .tooltiptext {
     visibility: hidden;
-    width: 140px;
     background-color: #555;
     color: #fff;
     text-align: center;
     border-radius: 6px;
-    padding: 5px;
+    padding: 6px;
     position: absolute;
     z-index: 1;
-    bottom: 150%;
-    left: 50%;
-    margin-left: -75px;
+    bottom: 120%;
     opacity: 0;
     transition: opacity 0.3s;
 }
@@ -185,4 +188,14 @@ a:active {
     border-width: 5px;
     border-style: solid;
     border-color: #555 transparent transparent transparent;
+}
+
+#copyTooltip {
+    display: flex;
+    margin-left: 7%;
+}
+
+#buttonContainer {
+    margin-top: 2%;
+    width: fit-content;
 }

@@ -1,16 +1,16 @@
 const confirm = document.getElementById("confirm");
-const link = document.getElementById("link");
+const linkInput = document.getElementById("link");
 confirm.addEventListener("click", compressLink);
 
-link.addEventListener("input", () => {
-    confirm.disabled = link.value.length == 0;
+linkInput.addEventListener("input", () => {
+    confirm.disabled = linkInput.value.length == 0;
 });
 
 async function compressLink() {
-    const link = document.getElementById('link').value;
+    const link = linkInput.value;
 
     const response = await fetch("api/ls", {
-        method:"POST",
+        method: "POST",
         body: link.replace('https://', '').replace('http://', '')
     });
 
@@ -38,13 +38,13 @@ async function compressLink() {
             linkContainer.appendChild(linkForUser);
 
             let copyButton = document.createElement('button');
-            copyButton.type = "button";
             copyButton.id = "copyButton";
+            copyButton.type = "button";
             copyButton.addEventListener("click", copyLink);
 
             let buttonName = document.createElement('span');
             buttonName.id = "copyButtonName"
-            buttonName.innerText = "copy"
+            buttonName.innerText = "copy dat shid"
 
             let tooltip = document.createElement('span');
             tooltip.id = "copyTooltip";
@@ -72,15 +72,14 @@ async function compressLink() {
     }
 }
 
-function copyLink() {
+async function copyLink() {
     let shortLink = document.getElementById('shortLink');
     const tooltip = document.getElementById('copyTooltip');
     navigator.clipboard.writeText(shortLink.innerText);
-    tooltip.visibility = "visible";
-    tooltip.opacity = 1;
-    delay(2000);
-    tooltip.visibility = "hidden";
-    tooltip.opacity = 0;
+    tooltip.style.visibility = "visible";
+    tooltip.style.opacity = 1;
+    await delay(2000);
+    tooltip.style.opacity = 0;
 }
 
 function delay(time) {
