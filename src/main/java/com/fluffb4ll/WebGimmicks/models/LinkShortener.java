@@ -32,6 +32,7 @@ public class LinkShortener {
         createdOn = LocalDate.now();
     }
 
+
     public String getOriginalLink() {
         return originalLink;
     }

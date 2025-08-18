@@ -3,7 +3,7 @@ const linkInput = document.getElementById("link");
 confirm.addEventListener("click", compressLink);
 
 linkInput.addEventListener("input", () => {
-    confirm.disabled = linkInput.value.length == 0;
+    confirm.disabled = linkInput.value.length === 0;
 });
 
 async function compressLink() {
