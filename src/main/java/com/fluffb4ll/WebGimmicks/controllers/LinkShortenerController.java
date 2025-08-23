@@ -17,12 +17,40 @@ import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
 import java.net.URI;
 import java.net.URISyntaxException;
+import java.util.Arrays;
+import java.util.HashMap;
+import java.util.Map;
+
+import static java.util.Map.entry;
 
 
 @RestController
 public class LinkShortenerController {
     private final LinkShortenerRepo LSRepository;
     private final DNSRepo DNSRepository;
+    private final HashMap<Character, char[]> percentEncodingDict = new HashMap<>(Map.ofEntries(
+            entry(' ', new char[] {'%', '2', '0'}),
+            entry('@', new char[] {'%', '4', '0'}),
+            entry('!', new char[] {'%', '2', '1'}),
+            entry('#', new char[] {'%', '2', '3'}),
+            entry('$', new char[] {'%', '2', '4'}),
+            // this one causes problems if provided an already percent-encoded link
+            //entry('%', new char[] {'%', '2', '5'}),
+            entry('&', new char[] {'%', '2', '6'}),
+            entry('\'', new char[] {'%', '2', '7'}),
+            entry('(', new char[] {'%', '2', '8'}),
+            entry(')', new char[] {'%', '2', '9'}),
+            entry('*', new char[] {'%', '2', 'A'}),
+            entry('+', new char[] {'%', '2', 'B'}),
+            entry(',', new char[] {'%', '2', 'C'}),
+            // why tf was it included in mozilla docs...
+            //entry('/', new char[] {'%', '2', 'F'}),
+            entry(':', new char[] {'%', '3', 'A'}),
+            entry('[', new char[] {'%', '5', 'B'}),
+            entry(';', new char[] {'%', '3', 'B'}),
+            entry(']', new char[] {'%', '5', 'D'}),
+            entry('=', new char[] {'%', '3', 'D'}),
+            entry('?', new char[] {'%', '3', 'F'})));
 
     public LinkShortenerController(LinkShortenerRepo LSRepository, DNSRepo DNSRepository) {
         this.LSRepository = LSRepository;
@@ -45,6 +73,30 @@ public class LinkShortenerController {
         else {
             return "Link is invalid";
         }
+    }
+
+    // TODO
+    private String linkToPunycode(String link) {
+        return "test";
+    }
+
+    private String percentEncode(String link) {
+        int arrayPtr = 0;
+        char[] encodedLink = new char[link.length()];
+        for (char c : link.toCharArray()) {
+            if (percentEncodingDict.containsKey(c)) {
+                encodedLink = Arrays.copyOf(encodedLink, encodedLink.length + 2);
+                for (char d : percentEncodingDict.get(c)) {
+                    encodedLink[arrayPtr] += d;
+                    arrayPtr++;
+                }
+            }
+            else {
+                encodedLink[arrayPtr] = c;
+                arrayPtr++;
+            }
+        }
+        return new String(encodedLink);
     }
 
     private boolean verifyDomainName(String domainName) {
@@ -73,7 +125,11 @@ public class LinkShortenerController {
     // TODO: добавить больше букавок
     @PostMapping("api/ls")
     public ResponseEntity<String> createShortLink(@RequestBody String link) {
-        if (!verifyDomainName(link.split("/")[0])) {
+        link = link.toLowerCase();
+        String[] linkParts = link.split("/");
+        link = linkToPunycode(linkParts[0]) + "/" + percentEncode(String.join("/", Arrays.copyOfRange(linkParts, 1, linkParts.length)));
+        String allowedSymbols = "-_~";
+        if (!link.matches(String.format("\\w.(\\w+[%s]*)+", allowedSymbols)) || !verifyDomainName(link.split("/")[0])) {
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Bad domain name!");
         }
 
